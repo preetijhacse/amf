@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AMF Exports — Hand-Forged Cutlery & Tabletop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1F1B18;
+    --paper: #F3EEE3;
+    --paper2: #FAF7F1;
+    --brass: #9C7A3C;
+    --brass-hover: #83642D;
+    --rust: #7A4632;
+    --steel: #6B6560;
+    --line: #D9D0BD;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+  
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Archivo', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.15;
+  }
+  
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  @media(max-width: 640px) { .wrap { padding: 0 20px; } }
+  section { padding: 76px 0; }
+  .eyebrow { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brass); margin-bottom: 10px; font-weight: 600; }
+
+  /* Utility Bar */
+  .utility {
+    background: var(--ink);
+    color: #C9BFAE;
+    font-size: 13px;
+    padding: 9px 0;
+  }
+  .utility .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  @media(max-width: 640px) { .utility .wrap { justify-content: center; text-align: center; } }
+
+  /* Header & Navigation */
+  header { position: sticky; top: 0; z-index: 100; background: rgba(243, 238, 227, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .navbar { display: flex; align-items: center; gap: 28px; padding: 12px 32px; }
+  .navbar img { height: 75px; width: auto; display: block; transition: transform 0.3s ease; }
+  .navbar img:hover { transform: scale(1.02); }
+  
+  nav.main { display: flex; gap: 28px; font-size: 15px; margin: 0 auto; position: relative; font-weight: 500; }
+  nav.main > a { padding: 8px 0; position: relative; transition: color 0.2s; }
+  nav.main > a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+    background: var(--brass); transform: scaleX(0); transition: transform 0.25s ease;
+  }
+  nav.main > a:hover::after { transform: scaleX(1); }
+  
+  .dropwrap { position: relative; }
+  .dropdown {
+    display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    background: var(--paper2); border: 1px solid var(--line); padding: 16px;
+    grid-template-columns: 1fr 1fr; gap: 6px 24px; min-width: 360px;
+    box-shadow: 0 14px 30px rgba(0,0,0,0.08); z-index: 20; border-radius: 4px;
+  }
+  .dropwrap:hover .dropdown { display: grid; }
+  .dropdown a { font-size: 14px; padding: 8px 10px; border-radius: 4px; color: var(--ink); transition: all 0.2s; }
+  .dropdown a:hover { background: var(--paper); color: var(--brass); transform: translateX(2px); }
+  
+  .head-right { display: flex; align-items: center; gap: 18px; }
+  .phone { font-size: 14px; font-weight: 600; white-space: nowrap; color: var(--ink); }
+  .cta {
+    border: 1px solid var(--ink); padding: 10px 22px; font-size: 14px; font-weight: 600;
+    white-space: nowrap; transition: all 0.25s ease; cursor: pointer; display: inline-block;
+  }
+  .cta:hover { background: var(--ink); color: var(--paper); }
+  @media(max-width: 900px) { nav.main, .phone { display: none; } }
+
+  /* Hero Section */
+  .hero { position: relative; min-height: 75vh; display: flex; align-items: flex-end; padding: 0; overflow: hidden; }
+  .hero img.bg {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    transform: scale(1.06); animation: heroZoom 8s ease-out forwards;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(31,27,24,0.3) 0%, rgba(31,27,24,0.6) 60%, rgba(20,17,15,0.9) 100%);
+  }
+  .hero-inner { position: relative; z-index: 1; color: var(--paper); padding: 90px 50px 64px; width: 100%; }
+  .hero-inner .eyebrow { color: #D9BE8C; }
+  .hero h1 { font-size: clamp(36px, 5.2vw, 58px); line-height: 1.08; max-width: 16ch; color: #F7F1E4; }
+  .hero p { max-width: 50ch; color: #D8CEBD; font-size: 17px; margin: 20px 0 32px; font-weight: 300; }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-cta .ghost { border: 1px solid #C9BFAE; color: #F3EEE3; padding: 10px 22px; font-size: 14px; font-weight: 600; transition: all 0.25s; }
+  .hero-cta .ghost:hover { background: #F3EEE3; color: var(--ink); }
+  @keyframes heroZoom { to { transform: scale(1); } }
+
+  .trust { background: var(--paper2); border-bottom: 1px solid var(--line); padding: 26px 0; overflow: hidden; }
+  .trust .wrap { display: flex; align-items: center; gap: 36px; flex-wrap: wrap; justify-content: space-between; }
+  .trust .label { font-size: 22px; font-family: 'Instrument Serif', serif; color: var(--steel); white-space: nowrap; }
+  .trust .names { display: flex; gap: 32px; flex-wrap: wrap; font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--rust); justify-content: center; }
+
+  /* Disciplines Section */
+  .disciplines { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; border-top: 1px solid var(--line); padding-top: 36px; }
+  @media(max-width: 760px) { .disciplines { grid-template-columns: 1fr; } }
+  .disc h3 { font-size: 26px; margin-bottom: 10px; }
+  .disc p { color: var(--steel); font-size: 15px; margin: 0; }
+  .disc .num { font-family: 'Instrument Serif', serif; color: var(--brass); font-size: 18px; margin-bottom: 8px; font-weight: 600; }
+
+  /* Stat Band */
+  .stats { background: var(--ink); color: var(--paper); padding: 32px 0; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+  @media(max-width: 700px) { .stat-grid { grid-template-columns: 1fr 1fr; } }
+  .stat-grid .n { font-family: 'Instrument Serif', serif; font-size: 44px; color: #D9BE8C; display: inline-block; }
+  .stat-grid .l { font-size: 13px; color: #B8AC96; margin-top: 4px; letter-spacing: 0.05em; }
+
+  /* Product Catalog */
+  .cat-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 36px; gap: 20px; flex-wrap: wrap; }
+  .cat-head h2 { font-size: 38px; }
+  .cat-head p { color: var(--steel); max-width: 40ch; margin: 0; font-size: 15px; }
+  .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  @media(max-width: 900px) { .cat-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width: 600px) { .cat-grid { grid-template-columns: 1fr; } }
+  
+  .cat-card .thumb { aspect-ratio: 4/3; overflow: hidden; margin-bottom: 14px; position: relative; background: var(--paper2); border-radius: 4px; }
+  .cat-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s cubic-bezier(.2,.7,.2,1); display: block; }
+  .cat-card:hover .thumb img { transform: scale(1.08); }
+  .cat-card h3 { font-size: 22px; margin-bottom: 6px; }
+  .cat-card p { color: var(--steel); font-size: 14px; margin: 0 0 12px; }
+  .cat-card .link { font-size: 13px; font-weight: 600; border-bottom: 1px solid var(--ink); padding-bottom: 2px; position: relative; }
+  .cat-card .link::after { content: " →"; display: inline-block; transition: transform 0.25s; }
+  .cat-card:hover .link::after { transform: translateX(4px); }
+
+  #portfolio { background: var(--paper2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .glance-head { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+  .glance-head h2 { font-size: 38px; }
+  .glance-head p { color: var(--steel); font-size: 14px; margin: 0; }
+
+  .glance-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; }
+  .glance-col { display: flex; flex-direction: column; gap: 20px; }
+  .glance-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* Interactive Hover Item */
+  .glance-item {
+    overflow: hidden; background: var(--paper); position: relative; border-radius: 4px;
+    cursor: pointer; border: 1px solid var(--line);
+  }
+  .glance-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform 0.6s cubic-bezier(.2,.7,.2,1), filter 0.4s ease;
+  }
+  
+  /* Hover Overlay Banner */
+  .glance-item .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(31,27,24,0) 40%, rgba(31,27,24,0.75) 100%);
+    opacity: 0; transition: opacity 0.35s ease;
+    display: flex; flex-direction: column; justify-content: flex-end; padding: 20px;
+    color: var(--paper2); z-index: 2;
+  }
+  .glance-item .overlay-title { font-family: 'Instrument Serif', serif; font-size: 22px; transform: translateY(10px); transition: transform 0.35s ease; }
+  .glance-item .overlay-sub { font-size: 12px; opacity: 0.85; text-transform: uppercase; letter-spacing: 0.05em; transform: translateY(10px); transition: transform 0.35s ease 0.05s; }
+  
+  .glance-item:hover img { transform: scale(1.08); filter: brightness(0.92); }
+  .glance-item:hover .overlay { opacity: 1; }
+  .glance-item:hover .overlay-title, .glance-item:hover .overlay-sub { transform: translateY(0); }
+  
+  /* Quick Expand Badge on Hover */
+  .glance-item .expand-badge {
+    position: absolute; top: 14px; right: 14px; background: rgba(243, 238, 227, 0.9);
+    color: var(--ink); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    opacity: 0; transform: scale(0.85); transition: all 0.3s ease; z-index: 3;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 4px;
+  }
+  .glance-item:hover .expand-badge { opacity: 1; transform: scale(1); }
+
+  @media(max-width: 820px) {
+    .glance-grid { grid-template-columns: 1fr; }
+    .glance-row { grid-template-columns: 1fr 1fr; }
+  }
+  @media(max-width: 520px) { .glance-row { grid-template-columns: 1fr; } }
+
+  .lightbox-modal {
+    position: fixed; inset: 0; z-index: 999;
+    background: rgba(18, 15, 13, 0.92); backdrop-filter: blur(12px);
+    display: opacity; opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease;
+    display: flex; align-items: center; justify-content: center; padding: 30px;
+  }
+  .lightbox-modal.active { opacity: 1; pointer-events: auto; }
+
+  .lightbox-content {
+    position: relative; max-width: 1000px; width: 100%; max-height: 90vh;
+    display: flex; flex-direction: column; align-items: center;
+    transform: scale(0.94); transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .lightbox-modal.active .lightbox-content { transform: scale(1); }
+
+  .lightbox-img-wrapper {
+    position: relative; width: 100%; max-height: 78vh; display: flex; justify-content: center;
+    border-radius: 6px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    background: #000;
+  }
+  .lightbox-img-wrapper img {
+    max-width: 100%; max-height: 78vh; object-fit: contain; display: block;
+  }
+
+  .lightbox-caption {
+    margin-top: 16px; text-align: center; color: var(--paper);
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .lightbox-caption h3 { font-size: 24px; color: #F7F1E4; }
+  .lightbox-caption p { font-size: 14px; color: #B8AC96; margin: 0; }
+
+  .lightbox-close {
+    position: absolute; top: -45px; right: 0;
+    background: transparent; border: none; color: #D8CEBD; font-size: 32px;
+    cursor: pointer; padding: 4px 12px; line-height: 1; transition: color 0.2s;
+  }
+  .lightbox-close:hover { color: #FFF; }
+
+  .process { background: var(--paper2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .proc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  @media(max-width: 820px) { .proc-grid { grid-template-columns: 1fr 1fr; } }
+  .proc-grid .step .num { font-family: 'Instrument Serif', serif; color: var(--brass); font-size: 28px; font-weight: 600; }
+  .proc-grid .step h3 { font-size: 20px; margin: 8px 0 6px; }
+  .proc-grid .step p { color: var(--steel); font-size: 14px; margin: 0; }
+
+  /* FAQ Accordion */
+  .faq { max-width: 800px; margin: 0 auto; }
+  details { border-top: 1px solid var(--line); padding: 20px 0; transition: background 0.2s; }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary {
+    cursor: pointer; font-size: 20px; font-family: 'Instrument Serif', serif;
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--brass); font-size: 24px; transition: transform 0.2s; }
+  details[open] summary::after { content: "–"; transform: rotate(180deg); }
+  details p { color: var(--steel); font-size: 15px; margin: 12px 0 0; max-width: 65ch; line-height: 1.6; }
+
+  /* Call to Action Band */
+  .band { background: var(--brass); color: #F7EFE2; text-align: center; }
+  .band h2 { font-size: 36px; color: #FBF3E4; margin-bottom: 20px; }
+  .band .row { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .band .cta { border-color: #F7EFE2; color: #F7EFE2; }
+  .band .cta:hover { background: #F7EFE2; color: var(--rust); }
+
+  /* Contact Form */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  @media(max-width: 820px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } }
+  .infoblock { margin-bottom: 22px; font-size: 15px; }
+  .infoblock .k { font-size: 18px; color: var(--brass); margin-bottom: 4px; font-family: 'Instrument Serif', serif; }
+  
+  form { display: flex; flex-direction: column; gap: 16px; }
+  input, textarea {
+    border: none; border-bottom: 1px solid var(--line); background: transparent;
+    padding: 12px 4px; font-family: 'Archivo', sans-serif; font-size: 15px; color: var(--ink);
+    transition: border-color 0.25s;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--brass); }
+  textarea { resize: vertical; min-height: 80px; }
+  .submit {
+    align-self: flex-start; margin-top: 10px; border: 1px solid var(--ink);
+    padding: 12px 30px; font-size: 14px; font-weight: 600; background: none;
+    cursor: pointer; font-family: 'Archivo', sans-serif; transition: all 0.25s;
+  }
+  .submit:hover { background: var(--ink); color: var(--paper); }
+
+  /* Footer */
+  footer {
+    background: var(--ink); color: #C9BFAE;
+    padding: 56px 0 calc(28px + env(safe-area-inset-bottom, 0px)); font-size: 14px;
+  }
+  .foot-grid {
+    display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 36px;
+    border-bottom: 1px solid #3A342E; padding-bottom: 36px; font-size: 15px;
+  }
+  @media(max-width: 820px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width: 520px) { .foot-grid { grid-template-columns: 1fr; } }
+  .foot-grid img.logo { height: 70px; margin-bottom: 16px; filter: brightness(0) invert(1); opacity: .9; }
+  .foot-grid h4 { font-size: 24px; color: #8C7C63; font-weight: 500; margin: 0 0 14px; font-family: 'Instrument Serif', serif; }
+  .foot-grid ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .foot-grid li a { font-size: 14px; color: #C9BFAE; transition: color 0.2s; }
+  .foot-grid li a:hover { color: #FFF; }
+  
+  .foot-bottom { padding-top: 24px; font-size: 14px; color: #7A7062; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .f_galler ul { list-style: none; padding: 0; margin: 20px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 80%; }
+  .f_galler img { height: 38px; width: auto; }
+</style>
+</head>
+<body>
+
+<div class="utility">
+  <div class="wrap">
+    <span>Noida (U.P.), India — 4 decades of hand-forging</span>
+    <span>info@amfexports.com · +91 9999922572</span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap navbar">
+    <a href="#"><img src="https://amfexports.com/wp-content/uploads/2023/02/logo-AMF.png" alt="AMF Exports Logo"></a>
+    <nav class="main">
+      <a href="#">Home</a>
+      <a href="#">About Us</a>
+      <div class="dropwrap">
+        <a href="#products">Products ▾</a>
+        <div class="dropdown">
+          <a href="#products">Premium Flatware</a>
+          <a href="#products">Kitchen &amp; Dining</a>
+          <a href="#products">Cheese Tools</a>
+          <a href="#products">Decor</a>
+          <a href="#products">Tabletop Accessories</a>
+          <a href="#products">Custom Barware</a>
+        </div>
+      </div>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact">Contact Us</a>
+    </nav>
+    <div class="head-right">
+      <span class="phone">+91 9999922572</span>
+      <a class="cta" href="#contact">Get a Quote</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero" style="padding:0;">
+  <img class="bg" src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/instagram-image.jpg" alt="AMF Craftsmanship">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Hand-Forged Cutlery &amp; Tabletop · Family-Run Since 4 Decades</div>
+    <h1>Pioneers of hand-forged cutlery and tabletop</h1>
+    <p>Handcrafted manufacturing expertise from our New Delhi factory, shaped by Karigars with over 30 years at the anvil, for 150+ partners worldwide.</p>
+    <div class="hero-cta">
+      <a class="cta" href="#contact" style="border-color:#F3EEE3; color:#F3EEE3;">Get a Quote</a>
+      <a class="ghost" href="#portfolio">Explore Portfolio</a>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <span class="label">Trusted by</span>
+    <div class="names"><span>RH</span><span>Anthropologie</span><span>CB2</span><span>Crate &amp; Barrel</span><span>Arhaus</span><span>Sundance</span><span>Dillard's</span><span>Sur La Table</span></div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">What We Do</div>
+    <h2 style="font-size:36px; max-width:22ch; margin-bottom:36px;">Craft, held to the same standard for four decades.</h2>
+    <div class="disciplines">
+      <div class="disc"><div class="num">01</div><h3>Forging</h3><p>Each piece begins on the anvil — shaped by hand, not stamped, in our own New Delhi workshop.</p></div>
+      <div class="disc"><div class="num">02</div><h3>Finishing</h3><p>Karigars with 30+ years of experience carry every piece through its final hand-finish.</p></div>
+      <div class="disc"><div class="num">03</div><h3>Fulfilment</h3><p>Made to order and shipped to partners across the world, at the volumes a retail line needs.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap">
+    <div class="stat-grid">
+      <div><div class="n">40</div><div class="l">Years of experience</div></div>
+      <div><div class="n">100%</div><div class="l">Artisanal, hand-finished</div></div>
+      <div><div class="n">MTO</div><div class="l">Made to order</div></div>
+      <div><div class="n">150+</div><div class="l">Partners worldwide</div></div>
+    </div>
+  </div>
+</div>
+
+<section id="products">
+  <div class="wrap">
+    <div class="cat-head">
+      <div>
+        <div class="eyebrow">Our Collections</div>
+        <h2>The Catalog</h2>
+      </div>
+      <p>Six categories, imagined in New Delhi and finished by hand.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card"><div class="thumb"><img src="https://amfexports.com/wp-content/uploads/2023/05/Premium-Flatware.jpg" alt="Premium Flatware" loading="lazy"></div><h3>Premium Flatware</h3><p>Classic and ultra-modern designs suited to on-demand requirements.</p><a class="link" href="#contact">View range</a></div>
+      <div class="cat-card"><div class="thumb"><img src="https://amfexports.com/wp-content/uploads/2023/05/Kitchen-Dining-scaled.jpg" alt="Kitchen &amp; Dining" loading="lazy"></div><h3>Kitchen &amp; Dining</h3><p>Multi-purpose kitchenware and serveware for every occasion.</p><a class="link" href="#contact">View range</a></div>
+      <div class="cat-card"><div class="thumb"><img src="https://amfexports.com/wp-content/uploads/2023/05/Cheese-Tools.jpg" alt="Cheese Tools" loading="lazy"></div><h3>Cheese Tools</h3><p>Exquisite cheese knives and sets, finished for the table.</p><a class="link" href="#contact">View range</a></div>
+      <div class="cat-card"><div class="thumb"><img src="https://amfexports.com/wp-content/uploads/2023/05/d1.jpg" alt="Decor" loading="lazy"></div><h3>Decor</h3><p>Striking decoratives for homes and hotel lobbies.</p><a class="link" href="#contact">View range</a></div>
+      <div class="cat-card"><div class="thumb"><img src="https://amfexports.com/wp-content/uploads/2023/05/Tabletop-Accessories.jpg" alt="Tabletop Accessories" loading="lazy"></div><h3>Tabletop Accessories</h3><p>Coasters, napkin rings, stirrers and statement serveware.</p><a class="link" href="#contact">View range</a></div>
+      <div class="cat-card"><div class="thumb"><img src="https://amfexports.com/wp-content/uploads/2023/05/barware-scaled.jpg" alt="Custom Barware" loading="lazy"></div><h3>Custom Barware</h3><p>Shakers, stirrers, ice buckets and Hawthorne strainers.</p><a class="link" href="#contact">View range</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="wrap">
+    <div class="glance-head">
+      <div>
+        <div class="eyebrow">Visual Showcases</div>
+        <h2>At a Glance</h2>
+      </div>
+      <p>Hover or tap any item to view details in full resolution.</p>
+    </div>
+    
+    <div class="glance-grid">
+      <!-- Left Column -->
+      <div class="glance-col">
+        <div class="glance-item" style="aspect-ratio: 4/3;" onclick="openLightbox('https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/p1.jpg', 'Artisanal Table Setting', 'Hand-Forged Flatware &amp; Fine Porcelain')">
+          <span class="expand-badge">🔍 Expand</span>
+          <img src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/p1.jpg" alt="Table Setting" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-title">Artisanal Table Setting</div>
+            <div class="overlay-sub">Hand-Forged Flatware &amp; Fine Porcelain</div>
+          </div>
+        </div>
+        
+        <div class="glance-item" style="aspect-ratio: 16/9;" onclick="openLightbox('https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/a1.jpg', 'Marble &amp; Glassware Ensemble', 'Bespoke Serveware &amp; Stemware')">
+          <span class="expand-badge">🔍 Expand</span>
+          <img src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/a1.jpg" alt="Marble & Glassware" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-title">Marble &amp; Glassware Ensemble</div>
+            <div class="overlay-sub">Bespoke Serveware &amp; Stemware</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Column -->
+      <div class="glance-col">
+        <div class="glance-row">
+          <div class="glance-item" style="aspect-ratio: 1/1;" onclick="openLightbox('https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/1-1.jpg', 'Brass &amp; Gold Cutlery', 'Precision Forged Stainless Core')">
+            <span class="expand-badge">🔍 Expand</span>
+            <img src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/1-1.jpg" alt="Cutlery Setup" loading="lazy">
+            <div class="overlay">
+              <div class="overlay-title">Brass &amp; Gold Cutlery</div>
+              <div class="overlay-sub">Precision Forged Stainless Core</div>
+            </div>
+          </div>
+          
+          <div class="glance-item" style="aspect-ratio: 1/1;" onclick="openLightbox('https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/p3.jpg', 'Hammered Finish Details', 'Artisanal Karigar Hand-Hammering')">
+            <span class="expand-badge">🔍 Expand</span>
+            <img src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/p3.jpg" alt="Detailed Cutlery" loading="lazy">
+            <div class="overlay">
+              <div class="overlay-title">Hammered Finish Details</div>
+              <div class="overlay-sub">Artisanal Karigar Hand-Hammering</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="glance-item" style="flex:1; min-height: 260px;" onclick="openLightbox('https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/instagram-image.jpg', 'Luxury Banquet Presentation', 'Grand Dining &amp; Hospitality Line')">
+          <span class="expand-badge">🔍 Expand</span>
+          <img src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/instagram-image.jpg" alt="Luxury Dining Details" loading="lazy">
+          <div class="overlay">
+            <div class="overlay-title">Luxury Banquet Presentation</div>
+            <div class="overlay-sub">Grand Dining &amp; Hospitality Line</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal Container -->
+<div id="lightbox" class="lightbox-modal" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="forceCloseLightbox()">✕</button>
+    <div class="lightbox-img-wrapper">
+      <img id="lightbox-img" src="" alt="Full Preview">
+    </div>
+    <div class="lightbox-caption">
+      <h3 id="lightbox-title">Image Title</h3>
+      <p id="lightbox-sub">Subtext details</p>
+    </div>
+  </div>
+</div>
+
+<div class="process">
+  <div class="wrap" style="padding:76px 32px;">
+    <div class="eyebrow">How We Work</div>
+    <h2 style="font-size:34px; margin-bottom:36px;">From your brief to your warehouse.</h2>
+    <div class="proc-grid">
+      <div class="step"><div class="num">01</div><h3>Brief</h3><p>Send your design, reference or requirement.</p></div>
+      <div class="step"><div class="num">02</div><h3>Sample</h3><p>We forge and finish a sample to your spec.</p></div>
+      <div class="step"><div class="num">03</div><h3>Produce</h3><p>Our Karigars hand-craft the full order to scale.</p></div>
+      <div class="step"><div class="num">04</div><h3>Ship</h3><p>Delivered to partners across the globe, made to order.</p></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap faq">
+    <div style="text-align:center; margin-bottom: 32px;">
+      <div class="eyebrow">Good to Know</div>
+      <h2 style="font-size:34px;">Common questions before you reach out.</h2>
+    </div>
+    <details open>
+      <summary>Where is everything manufactured?</summary>
+      <p>Every piece is manufactured in our own workshop facility in Noida / New Delhi, India by master Karigars with over 30 years of hand-forging experience.</p>
+    </details>
+    <details>
+      <summary>Can you produce to a custom design requirement?</summary>
+      <p>Yes — all our manufacturing is made to order (MTO). We routinely develop prototypes and custom tooling based on brand reference sketches or specifications.</p>
+    </details>
+    <details>
+      <summary>Who do you typically partner with?</summary>
+      <p>We partner with premier luxury retail brands, hotel chains, and high-end tabletop distributors worldwide — over 150 international brand partners to date.</p>
+    </details>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap" style="padding:64px 32px;">
+    <h2>Ready to bring your tabletop line to life?</h2>
+    <div class="row">
+      <a class="cta" href="#contact">Get a Quote</a>
+      <a class="cta" href="#products">Browse the Catalog</a>
+    </div>
+  </div>
+</div>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="eyebrow">Get in Touch</div>
+      <h2 style="font-size:36px; margin-bottom:22px;">Have custom requirements?<br>Let's connect.</h2>
+      <div class="infoblock"><div class="k">Address</div><div>AMF Exports Pvt. Ltd., A Block-106, Sector-63, Noida-201301 (U.P.), India</div></div>
+      <div class="infoblock"><div class="k">Email</div><div>info@amfexports.com</div></div>
+      <div class="infoblock"><div class="k">Phone</div><div>+91 9999922572</div></div>
+    </div>
+    <form onsubmit="handleFormSubmit(event)">
+      <input type="text" placeholder="Your Name" required>
+      <input type="tel" placeholder="Mobile Number" required>
+      <input type="text" placeholder="Company Name">
+      <input type="email" placeholder="Email Address" required>
+      <textarea placeholder="Tell us about your requirement or project..."></textarea>
+      <button class="submit" type="submit">Send Inquiry</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <img class="logo" src="https://amfexports.com/wp-content/uploads/2023/02/logo-AMF.png" alt="AMF Exports">
+        <p>A family-run enterprise with handcrafted manufacturing expertise spanning over four decades.</p>
+        <div class="f_galler">
+          <ul>
+            <li><img decoding="async" src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/o1-1-1.png" alt="Certification 1"></li>
+            <li><img decoding="async" src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/o2-1.png" alt="Certification 2"></li>
+            <li><img decoding="async" src="https://newamf.omsoftsolution.net.in/wp-content/uploads/2026/09/o3-1.png" alt="Certification 3"></li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <h4>Catalog</h4>
+        <ul>
+          <li><a href="#products">Premium Flatware</a></li>
+          <li><a href="#products">Kitchen &amp; Dining</a></li>
+          <li><a href="#products">Cheese Tools</a></li>
+          <li><a href="#products">Decor</a></li>
+          <li><a href="#products">Tabletop Accessories</a></li>
+          <li><a href="#products">Custom Barware</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#">Home</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in Touch</h4>
+        <ul>
+          <li>+91 9999922572</li>
+          <li>info@amfexports.com</li>
+          <li>Noida-201301 (U.P.), India</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 AMF Exports Pvt. Ltd. All Rights Reserved.</span>
+      <span>Designed with Craftsmanship</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Interactive Lightbox Functionality for At A Glance Portfolio
+  function openLightbox(src, title, sub) {
+    const modal = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    const titleEl = document.getElementById('lightbox-title');
+    const subEl = document.getElementById('lightbox-sub');
+
+    img.src = src;
+    titleEl.textContent = title || 'Portfolio Showcase';
+    subEl.textContent = sub || 'AMF Exports Handcrafted Quality';
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+
+  function closeLightbox(event) {
+    // Close modal if user clicks outside content wrapper
+    if (event.target.id === 'lightbox') {
+      forceCloseLightbox();
+    }
+  }
+
+  function forceCloseLightbox() {
+    const modal = document.getElementById('lightbox');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Escape key keyboard accessibility
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      forceCloseLightbox();
+    }
+  });
+
+  // Simple form submit feedback
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    alert('Thank you for reaching out to AMF Exports! We will get back to you within 24 hours.');
+    e.target.reset();
+  }
+</script>
+</body>
+</html>

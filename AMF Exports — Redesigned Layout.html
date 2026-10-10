@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AMF Exports — Redesign Layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1F1B18; --paper:#F3EEE3; --paper2:#FAF7F1;
+    --brass:#9C7A3C; --rust:#7A4632; --steel:#6B6560; --line:#D9D0BD;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+    box-sizing:border-box;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Archivo',sans-serif;line-height:1.5;}
+  h1,h2,h3{font-family:'Instrument Serif',serif;font-weight:400;margin:0;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+  @media(max-width:640px){.wrap{padding:0 20px;}}
+
+  /* header */
+  header{position:sticky;top:0;background:var(--paper);border-bottom:1px solid var(--line);z-index:10;padding-top:env(safe-area-inset-top,0px);}
+  .navbar{display:flex;align-items:center;justify-content:space-between;padding:20px 0;}
+  .brand{font-family:'Instrument Serif',serif;font-size:26px;letter-spacing:.5px;}
+  nav{display:flex;gap:32px;font-size:15px;color:var(--steel);}
+  nav a:hover{color:var(--ink);}
+  .cta{border:1px solid var(--ink);padding:9px 20px;font-size:14px;font-weight:500;white-space:nowrap;}
+  .cta:hover{background:var(--ink);color:var(--paper);}
+  .navlinks-mobile{display:none;}
+  @media(max-width:820px){nav{display:none;}}
+
+  /* hero */
+  .hero{padding:88px 0 64px;}
+  .hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:64px;align-items:start;}
+  @media(max-width:820px){.hero-grid{grid-template-columns:1fr;gap:40px;}}
+  .hero h1{font-size:clamp(38px,5vw,60px);line-height:1.08;max-width:14ch;}
+  .hero p.lede{color:var(--steel);font-size:18px;max-width:46ch;margin:22px 0 30px;}
+  .hero .cta{display:inline-block;}
+  .stat-rail{border-top:1px solid var(--line);}
+  .stat-row{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line);}
+  .stat-row .n{font-family:'Instrument Serif',serif;font-size:28px;color:var(--brass);}
+  .stat-row .l{font-size:14px;color:var(--steel);text-align:right;}
+
+  /* intro band */
+  .intro{padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper2);}
+  .intro-grid{display:grid;grid-template-columns:1fr 2fr;gap:48px;}
+  @media(max-width:720px){.intro-grid{grid-template-columns:1fr;}}
+  .intro .tag{font-size:14px;color:var(--brass);}
+  .intro p{font-size:20px;font-family:'Instrument Serif',serif;line-height:1.4;max-width:46ch;margin:0;}
+
+  /* catalog / products */
+  .catalog{padding:72px 0;}
+  .catalog > .head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:8px;gap:20px;}
+  .catalog h2{font-size:34px;}
+  .catalog .head p{color:var(--steel);max-width:40ch;font-size:15px;margin:0;}
+  .row{display:grid;grid-template-columns:60px 1fr 1.4fr 120px;gap:24px;align-items:center;padding:26px 0;border-top:1px solid var(--line);position:relative;}
+  .catalog .row:last-child{border-bottom:1px solid var(--line);}
+  .row .idx{font-family:'Instrument Serif',serif;font-size:20px;color:var(--brass);}
+  .row .name{font-size:22px;font-family:'Instrument Serif',serif;}
+  .row .desc{color:var(--steel);font-size:15px;}
+  .row .link{font-size:14px;font-weight:600;justify-self:end;border-bottom:1px solid var(--ink);padding-bottom:2px;}
+  .row:hover{background:var(--paper2);}
+  @media(max-width:720px){.row{grid-template-columns:36px 1fr;grid-template-areas:"idx name" ". desc" ". link";row-gap:8px;}
+    .row .desc,.row .link{grid-column:2;}.row .link{justify-self:start;}}
+
+  /* trust */
+  .trust{background:var(--ink);color:var(--paper);padding:48px 0;}
+  .trust .label{font-size:14px;color:#B79A6B;margin-bottom:22px;}
+  .marquee{display:flex;flex-wrap:wrap;gap:14px 40px;font-family:'Instrument Serif',serif;font-size:22px;color:#EDE4D2;}
+
+  /* contact */
+  .contact{padding:80px 0;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;}
+  @media(max-width:820px){.contact-grid{grid-template-columns:1fr;gap:40px;}}
+  .contact h2{font-size:34px;margin-bottom:18px;}
+  .infoblock{margin-bottom:22px;}
+  .infoblock .k{font-size:13px;color:var(--brass);margin-bottom:4px;}
+  .infoblock .v{font-size:16px;}
+  .map-ph{margin-top:20px;height:140px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--steel);font-size:13px;background:var(--paper2);}
+  form{display:flex;flex-direction:column;gap:14px;}
+  input,textarea{border:none;border-bottom:1px solid var(--line);background:transparent;padding:10px 2px;font-family:'Archivo',sans-serif;font-size:15px;color:var(--ink);}
+  input:focus,textarea:focus{outline:none;border-color:var(--brass);}
+  textarea{resize:vertical;min-height:70px;}
+  .submit{align-self:flex-start;margin-top:8px;border:1px solid var(--ink);padding:11px 26px;font-size:14px;font-weight:600;background:none;cursor:pointer;font-family:'Archivo',sans-serif;color:var(--ink);}
+  .submit:hover{background:var(--ink);color:var(--paper);}
+
+  /* footer */
+  footer{background:var(--ink);color:#C9BFAE;padding:48px 0 calc(28px + env(safe-area-inset-bottom,0px));font-size:14px;}
+  .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:32px;border-bottom:1px solid #3A342E;padding-bottom:32px;}
+  @media(max-width:640px){.foot-grid{grid-template-columns:1fr;}}
+  .foot-grid .brand{color:var(--paper);}
+  .foot-grid h4{font-size:13px;color:#8C7C63;font-weight:600;margin:0 0 12px;}
+  .foot-grid ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;}
+  .foot-bottom{padding-top:20px;font-size:12px;color:#7A7062;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap navbar">
+    <div class="brand">AMF Exports</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About Us</a>
+      <a href="#products">Products</a>
+      <a href="#contact">Contact Us</a>
+    </nav>
+    <a class="cta" href="#contact">Get a Quote</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Pioneers of hand-forged cutlery and tabletop</h1>
+      <p class="lede">A family-run workshop with four decades of handcrafted manufacturing, shaping flatware and tabletop pieces for over 150 global partners.</p>
+      <a class="cta" href="#products">View the Catalog</a>
+    </div>
+    <div class="stat-rail">
+      <div class="stat-row"><span class="n">40</span><span class="l">Years of<br>experience</span></div>
+      <div class="stat-row"><span class="n">100%</span><span class="l">Artisanal,<br>hand-finished</span></div>
+      <div class="stat-row"><span class="n">MTO</span><span class="l">Made to<br>order</span></div>
+      <div class="stat-row"><span class="n">150+</span><span class="l">Partners<br>worldwide</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="wrap intro-grid">
+    <div class="tag">What we do</div>
+    <p>Every piece is imagined and forged in our New Delhi factory, shaped by Karigars — craftsmen with over 30 years at the anvil — for retailers and hospitality brands across the world.</p>
+  </div>
+</section>
+
+<section class="catalog" id="products">
+  <div class="wrap">
+    <div class="head">
+      <h2>The Catalog</h2>
+      <p>Six categories, each made to order and finished by hand.</p>
+    </div>
+
+    <div class="row"><span class="idx">01</span><span class="name">Premium Flatware</span><span class="desc">Classic and ultra-modern designs suited to on-demand requirements.</span><a class="link" href="#">View</a></div>
+    <div class="row"><span class="idx">02</span><span class="name">Kitchen &amp; Dining</span><span class="desc">Multi-purpose kitchenware and serveware for everyday and occasion use.</span><a class="link" href="#">View</a></div>
+    <div class="row"><span class="idx">03</span><span class="name">Cheese Tools</span><span class="desc">Exquisite cheese knives and sets, finished for the table.</span><a class="link" href="#">View</a></div>
+    <div class="row"><span class="idx">04</span><span class="name">Decor</span><span class="desc">Striking decoratives for homes and hotel lobbies.</span><a class="link" href="#">View</a></div>
+    <div class="row"><span class="idx">05</span><span class="name">Tabletop Accessories</span><span class="desc">Coasters, napkin rings, stirrers, and statement serveware.</span><a class="link" href="#">View</a></div>
+    <div class="row"><span class="idx">06</span><span class="name">Custom Barware</span><span class="desc">Shakers, stirrers, ice buckets, Hawthorne strainers, and more.</span><a class="link" href="#">View</a></div>
+  </div>
+</section>
+
+<section class="trust">
+  <div class="wrap">
+    <div class="label">Trusted by</div>
+    <div class="marquee">
+      <span>RH</span><span>Anthropologie</span><span>CB2</span><span>Crate &amp; Barrel</span>
+      <span>Arhaus</span><span>Sundance</span><span>Dillard's</span><span>Sur La Table</span>
+      <span>Southern Living</span><span>Cost Plus</span>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <h2>Have more questions?<br>Let's connect.</h2>
+      <div class="infoblock"><div class="k">Address</div><div class="v">AMF Exports Pvt. Ltd., A Block-106, Sector-63, Noida-201301 (U.P.), India</div></div>
+      <div class="infoblock"><div class="k">Email</div><div class="v">info@amfexports.com</div></div>
+      <div class="infoblock"><div class="k">Phone</div><div class="v">+91 9999922572</div></div>
+      <div class="map-ph">Map embed</div>
+    </div>
+    <form onsubmit="return false;">
+      <input placeholder="Name">
+      <input placeholder="Mobile Number">
+      <input placeholder="Company Name">
+      <input placeholder="Email Address">
+      <textarea placeholder="Message"></textarea>
+      <button class="submit" type="submit">Submit</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="font-family:'Instrument Serif',serif;font-size:22px;margin-bottom:10px;">AMF Exports</div>
+        <p style="max-width:36ch;color:#9C9081;">A family-run enterprise with handcrafted manufacturing expertise over four decades.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul><li><a href="#">Home</a></li><li><a href="#">About Us</a></li><li><a href="#contact">Contact Us</a></li></ul>
+      </div>
+      <div>
+        <h4>Products</h4>
+        <ul><li><a href="#">Premium Flatware</a></li><li><a href="#">Kitchen &amp; Dining</a></li><li><a href="#">Cheese Tools</a></li><li><a href="#">Decor</a></li></ul>
+      </div>
+    </div>
+    <div class="wrap foot-bottom" style="padding-left:0;padding-right:0;">© 2026 AMF Export. All Rights Reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
